@@ -3,10 +3,10 @@
 module objects {
     // CONTROL CLASS ++++++++++++++++++++++++++++++++++++++++++
     export class Control { 
-        
+         public rotationSpeedY:number;
         // CONSTRUCTOR ++++++++++++++++++++++++++++++++++++++++
-        constructor() {
-
+        constructor(rotationSpeed:number) {
+              this.rotationSpeedY = rotationSpeed;
         }
         
         //PUBLIC METHODS +++++++++++++++++++++++++++++++++++++++

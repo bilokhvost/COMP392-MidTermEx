@@ -1,3 +1,15 @@
+/*game.ts
+Kateryna Bilokhvost
+Last Modified by: Kateryna Bilokhvost
+Date last Modified: March 02, 2016
+This is a program to display the Tapered Tower.
+The following controls are available: change rotation of the bottom cube
+Revision History:
+    Commit 1: Created the project file
+    Commit 2: Added the light, axes helper and plane to the scene
+   
+
+*/
 /// <reference path="_reference.ts"/>
 // MAIN GAME FILE
 // THREEJS Aliases
@@ -16,7 +28,6 @@ var Material = THREE.Material;
 var Mesh = THREE.Mesh;
 var Object3D = THREE.Object3D;
 var SpotLight = THREE.SpotLight;
-var PointLight = THREE.PointLight;
 var AmbientLight = THREE.AmbientLight;
 var Control = objects.Control;
 var GUI = dat.GUI;
@@ -33,18 +44,44 @@ var game = (function () {
     var scene = new Scene();
     var renderer;
     var camera;
+    var ambientLight;
+    var spotLight;
     var control;
     var gui;
     var stats;
+    var axes;
+    var ground;
+    var groundGeometry;
+    var groundMaterial;
     function init() {
         // Instantiate a new Scene object
         //scene = new Scene();
         setupRenderer(); // setup the default renderer
         setupCamera(); // setup the camera
-        /* ENTER CODE HERE */
+        //adding amber light to the scene
+        ambientLight = new AmbientLight(0x292929);
+        scene.add(ambientLight);
+        console.log("Added an Ambient Light to Scene");
+        //adding spot light to the scene
+        spotLight = new SpotLight(0xFFFFFF);
+        spotLight.position.set(-40, 60, -20);
+        spotLight.castShadow = true;
+        scene.add(spotLight);
+        console.log("added pointLight to the scene");
+        //adding AxisHelper
+        axes = new AxisHelper(10);
+        scene.add(axes);
+        console.log("Added Axis Helper to scene...");
+        // add plane
+        groundGeometry = new PlaneGeometry(16, 16);
+        groundMaterial = new LambertMaterial({ color: 0x204c39 });
+        ground = new Mesh(groundGeometry, groundMaterial);
+        ground.rotation.x = -0.5 * Math.PI;
+        scene.add(ground);
+        //adddind 
         // add controls
         gui = new GUI();
-        control = new Control();
+        control = new Control(0);
         addControl(control);
         // Add framerate stats
         addStatsObject();
@@ -53,7 +90,7 @@ var game = (function () {
         gameLoop(); // render the scene	
     }
     function addControl(controlObject) {
-        /* ENTER CODE for the GUI CONTROL HERE */
+        gui.add(controlObject, 'rotationSpeedY', -0.5, 0.5);
     }
     function addStatsObject() {
         stats = new Stats();
