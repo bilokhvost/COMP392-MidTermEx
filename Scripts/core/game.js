@@ -7,6 +7,7 @@ The following controls are available: change rotation of the bottom cube
 Revision History:
     Commit 1: Created the project file
     Commit 2: Added the light, axes helper and plane to the scene
+    Commit 3: adding two cubes with rotations
    
 
 */
@@ -95,14 +96,29 @@ var game = (function () {
         scene.add(ground);
         //adddind first cube
         cubeOneMaterial = new LambertMaterial({ color: Math.random() * 0xffffff });
-        cubeOneGeometry = new CubeGeometry(5, 5, 5);
+        cubeOneGeometry = new CubeGeometry(15, 3, 15);
         cubeOne = new gameObject(cubeOneGeometry, cubeOneMaterial, 0, 2.5, 0);
         scene.add(cubeOne);
         //adddind second cube
-        cubeTwoGeometry = new CubeGeometry(4, 4, 4);
+        cubeTwoGeometry = new CubeGeometry(12, 3, 12);
         cubeTwoMaterial = new LambertMaterial({ color: Math.random() * 0xffffff });
-        cubeTwo = new gameObject(cubeTwoGeometry, cubeTwoMaterial, 0, 7, 0);
+        cubeTwo = new gameObject(cubeTwoGeometry, cubeTwoMaterial, 0, 5.5, 0);
         scene.add(cubeTwo);
+        //adddind third cube
+        cubeThreeGeometry = new CubeGeometry(9, 2, 9);
+        cubeThreeMaterial = new LambertMaterial({ color: Math.random() * 0xffffff });
+        cubeThree = new gameObject(cubeThreeGeometry, cubeThreeMaterial, 0, 8, 0);
+        scene.add(cubeThree);
+        //adddind fourth cube
+        cubeFourGeometry = new CubeGeometry(7, 2, 7);
+        cubeFourMaterial = new LambertMaterial({ color: Math.random() * 0xffffff });
+        cubeFour = new gameObject(cubeFourGeometry, cubeFourMaterial, 0, 10, 0);
+        scene.add(cubeFour);
+        //adddind fifth cube
+        cubeFiveGeometry = new CubeGeometry(4, 4, 4);
+        cubeFiveMaterial = new LambertMaterial({ color: Math.random() * 0xffffff });
+        cubeFive = new gameObject(cubeFiveGeometry, cubeFiveMaterial, 0, 12, 0);
+        scene.add(cubeFive);
         // add controls
         gui = new GUI();
         control = new Control(0, 0, 0, 0, 0);
@@ -116,6 +132,9 @@ var game = (function () {
     function addControl(controlObject) {
         gui.add(controlObject, 'rotationSpeedOne', -0.5, 0.5);
         gui.add(controlObject, 'rotationSpeedTwo', -0.5, 0.5);
+        gui.add(controlObject, 'rotationSpeedThree', -0.5, 0.5);
+        gui.add(controlObject, 'rotationSpeedFour', -0.5, 0.5);
+        gui.add(controlObject, 'rotationSpeedFive', -0.5, 0.5);
     }
     function addStatsObject() {
         stats = new Stats();
@@ -130,9 +149,9 @@ var game = (function () {
         stats.update();
         cubeOne.rotation.y += control.rotationSpeedOne;
         cubeTwo.rotation.y += control.rotationSpeedTwo;
-        //   cubeOne.rotation.y += control.rotationSpeedOne;
-        // cubeOne.rotation.y += control.rotationSpeedOne;
-        // cubeOne.rotation.y += control.rotationSpeedOne;
+        cubeThree.rotation.y += control.rotationSpeedThree;
+        cubeFour.rotation.y += control.rotationSpeedFour;
+        cubeFive.rotation.y += control.rotationSpeedOne;
         // render using requestAnimationFrame
         requestAnimationFrame(gameLoop);
         // render the scene
