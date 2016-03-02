@@ -8,8 +8,8 @@ Revision History:
     Commit 1: Created the project file
     Commit 2: Added the light, axes helper and plane to the scene
     Commit 3: adding two cubes with rotations
-   
-
+    Commit 4: added three more cubes with rotations
+    Commit 5: changed camera position 
 */
 /// <reference path="_reference.ts"/>
 
@@ -91,8 +91,9 @@ var game = (() => {
         
         //adding spot light to the scene
         spotLight = new SpotLight(0xFFFFFF);
-        spotLight.position.set(-40, 60, -20);
+        spotLight.position.set(-40, 40, -20);
         spotLight.castShadow = true;
+        spotLight.shadowDarkness=1;
         scene.add(spotLight);
         console.log("added pointLight to the scene");
         
@@ -102,8 +103,8 @@ var game = (() => {
         console.log("Added Axis Helper to scene...");
         
         // add plane
-        groundGeometry = new PlaneGeometry(26, 26);
-        groundMaterial = new LambertMaterial({ color: 0x204c39 });
+        groundGeometry = new PlaneGeometry(40, 40);
+        groundMaterial = new LambertMaterial({ color: 0x9dbf7e });
         ground = new Mesh(groundGeometry, groundMaterial);
         ground.rotation.x = -0.5 * Math.PI;
         scene.add(ground);
@@ -114,34 +115,34 @@ var game = (() => {
         cubeOne = new gameObject(cubeOneGeometry, cubeOneMaterial, 0, 2.5, 0);
         scene.add(cubeOne);
         
-         //adddind second cube
+        //adddind second cube
         cubeTwoGeometry = new CubeGeometry(12, 3, 12);
-        cubeTwoMaterial = new LambertMaterial({ color: Math.random() * 0xffffff });        
+        cubeTwoMaterial = new LambertMaterial({ color: Math.random() * 0xffffff });
         cubeTwo = new gameObject(cubeTwoGeometry, cubeTwoMaterial, 0, 5.5, 0);
         scene.add(cubeTwo);
         
-         //adddind third cube
+        //adddind third cube
         cubeThreeGeometry = new CubeGeometry(9, 2, 9);
-        cubeThreeMaterial = new LambertMaterial({ color: Math.random() * 0xffffff });        
+        cubeThreeMaterial = new LambertMaterial({ color: Math.random() * 0xffffff });
         cubeThree = new gameObject(cubeThreeGeometry, cubeThreeMaterial, 0, 8, 0);
         scene.add(cubeThree);
             
-              //adddind fourth cube
+        //adddind fourth cube
         cubeFourGeometry = new CubeGeometry(7, 2, 7);
-        cubeFourMaterial = new LambertMaterial({ color: Math.random() * 0xffffff });        
+        cubeFourMaterial = new LambertMaterial({ color: Math.random() * 0xffffff });
         cubeFour = new gameObject(cubeFourGeometry, cubeFourMaterial, 0, 10, 0);
         scene.add(cubeFour);
         
-            //adddind fifth cube
-        cubeFiveGeometry = new CubeGeometry(4,4, 4);
-        cubeFiveMaterial = new LambertMaterial({ color: Math.random() * 0xffffff });        
-        cubeFive = new gameObject(cubeFiveGeometry, cubeFiveMaterial, 0, 12, 0);
+        //adddind fifth cube
+        cubeFiveGeometry = new CubeGeometry(3, 3, 3);
+        cubeFiveMaterial = new LambertMaterial({ color: Math.random() * 0xffffff });
+        cubeFive = new gameObject(cubeFiveGeometry, cubeFiveMaterial, 0, 12.5, 0);
         scene.add(cubeFive);
         
  
-        // add controls
+        // add controls to rotate five cubes
         gui = new GUI();
-        control = new Control(0,0,0,0,0);
+        control = new Control(0, 0, 0, 0, 0);
         addControl(control);
 
         // Add framerate stats
@@ -152,7 +153,7 @@ var game = (() => {
         gameLoop(); // render the scene	
 
     }
-
+    
     function addControl(controlObject: Control): void {
         gui.add(controlObject, 'rotationSpeedOne', -0.5, 0.5);
         gui.add(controlObject, 'rotationSpeedTwo', -0.5, 0.5);
@@ -173,12 +174,15 @@ var game = (() => {
     // Setup main game loop
     function gameLoop(): void {
         stats.update();
-        
+        //rotation functionality
         cubeOne.rotation.y += control.rotationSpeedOne;
         cubeTwo.rotation.y += control.rotationSpeedTwo;
-      cubeThree.rotation.y += control.rotationSpeedThree;
-       cubeFour.rotation.y += control.rotationSpeedFour;
-       cubeFive.rotation.y += control.rotationSpeedOne;
+        cubeThree.rotation.y += control.rotationSpeedThree;
+        cubeFour.rotation.y += control.rotationSpeedFour;
+        cubeFive.rotation.y += control.rotationSpeedFive;
+        
+        
+        
         
         // render using requestAnimationFrame
         requestAnimationFrame(gameLoop);
@@ -190,7 +194,7 @@ var game = (() => {
     // Setup default renderer
     function setupRenderer(): void {
         renderer = new Renderer();
-        renderer.setClearColor(0x404040, 1.0);
+        renderer.setClearColor(0xb9d2e9, 1.0);
         renderer.setSize(CScreen.WIDTH, CScreen.HEIGHT);
         //renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.shadowMap.enabled = true;
@@ -200,9 +204,9 @@ var game = (() => {
     // Setup main camera for the scene
     function setupCamera(): void {
         camera = new PerspectiveCamera(35, config.Screen.RATIO, 0.1, 100);
-        camera.position.x = 15.3;
-        camera.position.y = 18.5;
-        camera.position.z = -50;
+        camera.position.x = 15;
+        camera.position.y = 30
+        camera.position.z = -70;
         camera.rotation.set(-1.10305, 0.49742, -0.1396);
         camera.lookAt(new Vector3(0, 0, 0));
         console.log("Finished setting up Camera...");
